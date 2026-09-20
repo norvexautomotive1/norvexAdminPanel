@@ -1,0 +1,198 @@
+$bg: #0a0906;
+$panel: #11110d;
+$panel-soft: #171612;
+$ink: #f2ede3;
+$ink-dim: rgba(242, 237, 227, 0.7);
+$gold: #c8a24d;
+$gold-bright: #e2bf6f;
+$hairline: rgba(200, 162, 77, 0.22);
+$danger: #ef6b5d;
+$shadow: rgba(0, 0, 0, 0.34);
+
+$font-display: 'Cormorant Garamond', Georgia, serif;
+$font-ui: 'Jost', 'Helvetica Neue', sans-serif;
+
+.auth-page {
+  min-height: calc(100vh - 88px);
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at top, rgba(200, 162, 77, 0.12), transparent 30%),
+    linear-gradient(180deg, #0c0b08 0%, $bg 100%);
+  padding: 32px 20px;
+  height: 100vh;
+}
+
+.auth-card {
+  width: min(100%, 460px);
+  background: linear-gradient(180deg, rgba(17, 17, 13, 0.96) 0%, rgba(10, 9, 6, 0.96) 100%);
+  border: 1px solid $hairline;
+  border-radius: 18px;
+  box-shadow: 0 28px 55px $shadow;
+  padding: 34px 28px 28px;
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.auth-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(200, 162, 77, 0.1);
+  border: 1px solid $hairline;
+  color: $gold-bright;
+  font-family: $font-display;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.auth-brand-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-brand-title {
+  font-family: $font-display;
+  color: $gold-bright;
+  font-size: 2.2rem;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+.auth-brand-subtitle {
+  margin-top: 4px;
+  font-family: $font-ui;
+  font-size: 0.66rem;
+  color: $ink-dim;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.auth-heading {
+  text-align: center;
+  margin-bottom: 20px;
+
+  h1 {
+    font-family: $font-ui;
+    font-size: clamp(1.6rem, 2vw, 2rem);
+    color: $ink;
+    letter-spacing: 0.02em;
+    font-weight: 600;
+  }
+
+  p {
+    margin-top: 8px;
+    color: $ink-dim;
+    font-family: $font-ui;
+    font-size: 0.92rem;
+  }
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    color: $ink-dim;
+    font-size: 0.76rem;
+    font-family: $font-ui;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid $hairline;
+    background: rgba(255, 255, 255, 0.02);
+    color: $ink;
+    border-radius: 10px;
+    padding: 14px 15px;
+    font-size: 0.98rem;
+    font-family: $font-ui;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &:focus {
+      outline: none;
+      border-color: rgba(226, 191, 111, 0.7);
+      box-shadow: 0 0 0 3px rgba(226, 191, 111, 0.12);
+    }
+
+    &::placeholder {
+      color: rgba(242, 237, 227, 0.38);
+    }
+  }
+}
+
+.submit-btn {
+  margin-top: 8px;
+  width: 100%;
+  border: 1px solid rgba(226, 191, 111, 0.45);
+  background: linear-gradient(135deg, $gold 0%, $gold-bright 100%);
+  color: #17120b;
+  border-radius: 10px;
+  font-family: $font-ui;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 15px 18px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 10px 22px rgba(200, 162, 77, 0.2);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 26px rgba(200, 162, 77, 0.26);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.auth-error {
+  border: 1px solid rgba(239, 107, 93, 0.5);
+  background: rgba(239, 107, 93, 0.08);
+  color: #ffb2a8;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: $font-ui;
+  font-size: 0.9rem;
+}
+
+.loading-shell {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  color: $ink;
+  font-family: $font-ui;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: $bg;
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 26px 18px 22px;
+  }
+
+  .auth-brand-title {
+    font-size: 1.8rem;
+  }
+}
