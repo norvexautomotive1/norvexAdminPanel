@@ -1,0 +1,337 @@
+$bg: #0a0906;
+$panel: #0d0c08;
+$ink: #f2ede3;
+$ink-dim: rgba(242, 237, 227, 0.62);
+$gold: #c8a24d;
+$gold-bright: #e2bf6f;
+$hairline: rgba(200, 162, 77, 0.22);
+
+$font-display: 'Cormorant Garamond', Georgia, serif;
+$font-ui: 'Jost', 'Helvetica Neue', sans-serif;
+
+.reservations-page {
+  padding: 48px 36px;
+  color: $ink;
+  background: $bg;
+  font-family: $font-ui;
+  height: 100vh;
+}
+
+.page-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: $gold;
+  font-size: 0.68rem;
+  letter-spacing: 0.3em;
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-family: $font-display;
+  font-weight: 600;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.count-pill {
+  color: $ink-dim;
+  font-size: 0.8rem;
+  border: 1px solid $hairline;
+  padding: 8px 16px;
+  border-radius: 999px;
+
+  b {
+    color: $gold-bright;
+  }
+}
+
+// Table
+
+.table-card {
+  background: $panel;
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  overflow: hidden;
+
+  @media (max-width: 900px) {
+    overflow-x: auto;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  @media (max-width: 900px) {
+    min-width: 950px;
+  }
+}
+
+thead th {
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: $gold;
+  text-transform: uppercase;
+  border-bottom: 1px solid $hairline;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 16px 20px;
+  font-size: 0.85rem;
+  color: $ink;
+  border-bottom: 1px solid rgba(200, 162, 77, 0.1);
+  white-space: nowrap;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: rgba(200, 162, 77, 0.04);
+}
+
+.client-cell .name {
+  color: $ink;
+  font-weight: 500;
+}
+
+.meta {
+  color: $ink-dim;
+  font-size: 0.76rem;
+  margin-top: 2px;
+}
+
+.category-tag {
+  font-size: 0.76rem;
+  color: $ink-dim;
+}
+
+.state-message {
+  padding: 60px 20px;
+  text-align: center;
+  color: $ink-dim;
+  font-size: 0.88rem;
+
+  &.error {
+    color: #e07a5f;
+  }
+
+  &.inline {
+    padding: 10px 0 0;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+}
+
+// Status badge
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  border: 1px solid $hairline;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  &.in_asteptare {
+    color: $gold-bright;
+    border-color: $gold;
+  }
+
+  &.confirmat {
+    color: #7fbf8f;
+    border-color: rgba(127, 191, 143, 0.5);
+  }
+
+  &.anulat {
+    color: #e07a5f;
+    border-color: rgba(224, 122, 95, 0.5);
+  }
+}
+
+// Edit button
+
+.edit-btn {
+  width: 32px;
+  height: 32px;
+  border: 1px solid $hairline;
+  background: transparent;
+  color: $gold;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  &:hover {
+    border-color: $gold-bright;
+    color: $gold-bright;
+  }
+}
+
+// Modal
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 520px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: linear-gradient(165deg, $panel 0%, $bg 100%);
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 32px 30px;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+
+  h2 {
+    font-family: $font-display;
+    font-size: 1.4rem;
+    color: $gold-bright;
+    margin: 0;
+  }
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: $ink-dim;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+
+  &:hover {
+    color: $gold-bright;
+  }
+}
+
+.field-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 18px;
+
+  .field {
+    flex: 1;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+
+  label {
+    color: $gold;
+    font-size: 0.66rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  input,
+  select {
+    background: #131109;
+    border: 1px solid $hairline;
+    color: $ink;
+    padding: 11px 13px;
+    font-family: $font-ui;
+    font-size: 0.86rem;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      border-color: $gold;
+    }
+  }
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-save {
+  flex: 1;
+  background: $gold;
+  color: $bg;
+  border: none;
+  padding: 13px;
+  font-family: $font-ui;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover:not(:disabled) {
+    background: $gold-bright;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-cancel {
+  flex: 1;
+  background: transparent;
+  border: 1px solid $hairline;
+  color: $ink-dim;
+  padding: 13px;
+  font-family: $font-ui;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    border-color: $gold;
+    color: $gold-bright;
+  }
+}
