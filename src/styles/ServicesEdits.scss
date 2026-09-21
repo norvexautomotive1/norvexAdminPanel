@@ -1,0 +1,400 @@
+$bg: #0a0906;
+$panel: #0d0c08;
+$ink: #f2ede3;
+$ink-dim: rgba(242, 237, 227, 0.62);
+$gold: #c8a24d;
+$gold-bright: #e2bf6f;
+$hairline: rgba(200, 162, 77, 0.22);
+
+$font-display: 'Cormorant Garamond', Georgia, serif;
+$font-ui: 'Jost', 'Helvetica Neue', sans-serif;
+
+.services-edits-page {
+  padding: 48px 36px;
+  color: $ink;
+  background: $bg;
+  font-family: $font-ui;
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: $gold;
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: 2rem;
+    margin: 0 0 28px;
+  }
+}
+
+// Tabs
+
+.tabs {
+  display: inline-flex;
+  gap: 6px;
+  background: $panel;
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 5px;
+  margin-bottom: 28px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: transparent;
+  border: none;
+  border-radius: 3px;
+  color: $ink-dim;
+  font-family: $font-ui;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  &.active {
+    background: rgba(200, 162, 77, 0.1);
+    color: $gold-bright;
+  }
+}
+
+// Add form card
+
+.add-card {
+  background: $panel;
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 26px 28px;
+  margin-bottom: 24px;
+
+  h3 {
+    font-family: $font-display;
+    font-size: 1.1rem;
+    color: $gold-bright;
+    margin: 0 0 18px;
+  }
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr auto;
+  gap: 14px;
+  align-items: end;
+
+  &.detailing {
+    grid-template-columns: 1.4fr 1.4fr 1fr auto;
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  label {
+    color: $gold;
+    font-size: 0.64rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  input {
+    background: #131109;
+    border: 1px solid $hairline;
+    color: $ink;
+    padding: 11px 12px;
+    font-family: $font-ui;
+    font-size: 0.85rem;
+    border-radius: 3px;
+
+    &:focus {
+      outline: none;
+      border-color: $gold;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $ink-dim;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.add-btn {
+  background: $gold;
+  color: $bg;
+  border: none;
+  padding: 11px 20px;
+  font-family: $font-ui;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 3px;
+  white-space: nowrap;
+  height: fit-content;
+
+  &:hover:not(:disabled) {
+    background: $gold-bright;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.form-error {
+  color: #e07a5f;
+  font-size: 0.8rem;
+  margin: 12px 0 0;
+}
+
+// Table
+
+.table-card {
+  background: $panel;
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  overflow: hidden;
+
+  @media (max-width: 900px) {
+    overflow-x: auto;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  @media (max-width: 900px) {
+    min-width: 700px;
+  }
+}
+
+thead th {
+  text-align: left;
+  padding: 14px 18px;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  color: $gold;
+  text-transform: uppercase;
+  border-bottom: 1px solid $hairline;
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 13px 18px;
+  font-size: 0.84rem;
+  border-bottom: 1px solid rgba(200, 162, 77, 0.1);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: rgba(200, 162, 77, 0.04);
+}
+
+.price-cell {
+  color: $gold-bright;
+  font-weight: 500;
+}
+
+.meta {
+  color: $ink-dim;
+  font-size: 0.78rem;
+}
+
+.state-message {
+  padding: 50px 20px;
+  text-align: center;
+  color: $ink-dim;
+  font-size: 0.86rem;
+
+  &.error {
+    color: #e07a5f;
+  }
+
+  &.inline {
+    padding: 10px 0 0;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+}
+
+.row-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border: 1px solid $hairline;
+  background: transparent;
+  border-radius: 3px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: $gold;
+  transition: border-color 0.2s ease, color 0.2s ease;
+
+  svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  &:hover {
+    border-color: $gold-bright;
+    color: $gold-bright;
+  }
+
+  &.delete:hover {
+    border-color: #e07a5f;
+    color: #e07a5f;
+  }
+}
+
+// Modal (edit)
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+  max-height: 88vh;
+  overflow-y: auto;
+  background: linear-gradient(165deg, $panel 0%, $bg 100%);
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 30px 28px;
+}
+
+.modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 22px;
+
+  h2 {
+    font-family: $font-display;
+    font-size: 1.3rem;
+    color: $gold-bright;
+    margin: 0;
+  }
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: $ink-dim;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 1;
+
+  &:hover {
+    color: $gold-bright;
+  }
+}
+
+.field-row {
+  display: flex;
+  gap: 14px;
+
+  .field {
+    flex: 1;
+  }
+}
+
+.modal-card .field {
+  margin-bottom: 16px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-save {
+  flex: 1;
+  background: $gold;
+  color: $bg;
+  border: none;
+  padding: 13px;
+  font-family: $font-ui;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover:not(:disabled) {
+    background: $gold-bright;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-cancel {
+  flex: 1;
+  background: transparent;
+  border: 1px solid $hairline;
+  color: $ink-dim;
+  padding: 13px;
+  font-family: $font-ui;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover {
+    border-color: $gold;
+    color: $gold-bright;
+  }
+}
+
+@media (max-width: 900px) {
+  .services-edits-page {
+    padding: 32px 18px;
+  }
+
+  .form-grid,
+  .form-grid.detailing {
+    grid-template-columns: 1fr;
+  }
+}
