@@ -1,0 +1,660 @@
+$bg: #0a0906;
+$panel: #0d0c08;
+$surface: #131109;
+$ink: #f2ede3;
+$ink-dim: rgba(242, 237, 227, 0.68);
+$ink-faint: rgba(242, 237, 227, 0.38);
+$gold: #c8a24d;
+$gold-bright: #e2bf6f;
+$hairline: rgba(200, 162, 77, 0.25);
+$hairline-soft: rgba(200, 162, 77, 0.12);
+$danger: #e07a5f;
+
+$font-display: 'Cormorant Garamond', Georgia, serif;
+$font-ui: 'Jost', 'Helvetica Neue', sans-serif;
+
+// Toate clasele sunt prefixate cu hm- și încadrate în .home-page,
+// ca să nu intre în conflict cu stilurile din Rezerve / Reservations.
+
+.home-page {
+  min-height: 100%;
+  padding: 100px 24px 120px;
+  color: $ink;
+  background: $bg;
+  font-family: $font-ui;
+
+  .hm-shell {
+    max-width: 1120px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  h1,
+  h2,
+  p,
+  ol,
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  ol,
+  ul {
+    list-style: none;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  /* ---------- Antet: ziua ---------- */
+
+  .hm-day {
+    background: linear-gradient(165deg, $panel 0%, $bg 100%);
+    border: 1px solid $hairline;
+    border-radius: 4px;
+  }
+
+  .hm-day-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 32px 36px 28px;
+  }
+
+  .hm-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    color: $gold;
+    font-size: 0.72rem;
+    letter-spacing: 0.34em;
+
+    &::before {
+      content: '';
+      width: 28px;
+      height: 1px;
+      background: $hairline;
+    }
+  }
+
+  h1 {
+    font-family: $font-display;
+    font-weight: 600;
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    line-height: 1.05;
+  }
+
+  .hm-day-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 14px;
+    color: $ink-dim;
+    font-size: 0.88rem;
+  }
+
+  .hm-closed {
+    color: $danger;
+  }
+
+  .hm-pill {
+    padding: 4px 12px;
+    border: 1px solid $gold;
+    border-radius: 999px;
+    color: $gold-bright;
+    background: rgba(200, 162, 77, 0.08);
+    font-size: 0.78rem;
+  }
+
+  /* Controale zi */
+
+  .hm-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .hm-icon-btn,
+  .hm-text-btn,
+  .hm-date-input {
+    height: 38px;
+    background: $surface;
+    border: 1px solid $hairline;
+    border-radius: 3px;
+    color: $ink;
+    font-size: 0.86rem;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .hm-icon-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    color: $gold;
+    cursor: pointer;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .hm-text-btn {
+    padding: 0 16px;
+    color: $gold-bright;
+    cursor: pointer;
+  }
+
+  .hm-date-input {
+    padding: 0 12px;
+    color-scheme: dark;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .hm-icon-btn:hover:not(:disabled),
+  .hm-text-btn:hover:not(:disabled),
+  .hm-date-input:hover,
+  .hm-date-input:focus {
+    border-color: $gold;
+  }
+
+  .hm-text-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  /* Cifre cheie */
+
+  .hm-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid $hairline;
+  }
+
+  .hm-stat {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 18px 36px;
+    color: $ink-dim;
+    font-size: 0.84rem;
+
+    & + & {
+      border-left: 1px solid $hairline-soft;
+    }
+
+    b {
+      color: $ink;
+      font-family: $font-display;
+      font-size: 2rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+  }
+
+  /* ---------- Banda săptămânii ---------- */
+
+  .hm-week {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+
+  .hm-weekday {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 12px 6px;
+    background: $surface;
+    border: 1px solid $hairline-soft;
+    border-radius: 3px;
+    color: $ink;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+
+    &:hover:not(.selected) {
+      border-color: $gold;
+    }
+
+    &.selected {
+      border-color: $gold;
+      background: rgba(200, 162, 77, 0.1);
+    }
+
+    &.today .hm-weekday-num::after {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      margin-left: 6px;
+      border-radius: 50%;
+      background: $gold;
+      vertical-align: middle;
+    }
+
+    &.closed {
+      opacity: 0.45;
+    }
+  }
+
+  .hm-weekday-name {
+    color: $ink-dim;
+    font-size: 0.74rem;
+  }
+
+  .hm-weekday-num {
+    font-family: $font-display;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .hm-weekday-count {
+    color: $ink-faint;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+
+  .hm-weekday.selected .hm-weekday-count {
+    color: $gold-bright;
+  }
+
+  /* ---------- Grilă principală ---------- */
+
+  .hm-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+    gap: 22px;
+    align-items: start;
+  }
+
+  .hm-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .hm-panel {
+    background: linear-gradient(165deg, $panel 0%, $bg 100%);
+    border: 1px solid $hairline;
+    border-radius: 4px;
+    padding: 26px 28px 28px;
+  }
+
+  .hm-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+
+    h2 {
+      font-family: $font-display;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+  }
+
+  .hm-state {
+    padding: 18px 0;
+    color: $ink-dim;
+    font-size: 0.88rem;
+    line-height: 1.6;
+
+    &.error {
+      color: $danger;
+    }
+  }
+
+  /* ---------- Agenda ---------- */
+
+  .hm-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hm-row {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr) auto;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid $hairline-soft;
+
+    &:first-child {
+      border-top: none;
+      padding-top: 4px;
+    }
+
+    &.trecut {
+      opacity: 0.45;
+    }
+
+    &.acum,
+    &.urmeaza {
+      .hm-time {
+        color: $gold-bright;
+      }
+    }
+
+    &.acum {
+      margin: 0 -14px;
+      padding-left: 14px;
+      padding-right: 14px;
+      border-left: 2px solid $gold;
+      background: rgba(200, 162, 77, 0.06);
+    }
+  }
+
+  .hm-time {
+    color: $gold;
+    font-family: $font-display;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hm-main {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+  }
+
+  .hm-name {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .hm-sub,
+  .hm-service {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    color: $ink-dim;
+    font-size: 0.84rem;
+  }
+
+  .hm-plate {
+    padding: 2px 9px;
+    border: 1px solid $hairline;
+    border-radius: 3px;
+    color: $ink;
+    background: $surface;
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hm-tag {
+    padding: 2px 9px;
+    border: 1px solid $hairline;
+    border-radius: 3px;
+    color: $gold;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .hm-side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .hm-flag {
+    color: $gold-bright;
+    font-size: 0.76rem;
+    font-weight: 500;
+  }
+
+  .hm-call {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: $ink-dim;
+    font-size: 0.82rem;
+    text-decoration: none;
+    transition: color 0.2s ease;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      color: $gold;
+    }
+
+    &:hover {
+      color: $gold-bright;
+    }
+  }
+
+  /* ---------- Ocupare ---------- */
+
+  .hm-occ {
+    & + & {
+      margin-top: 18px;
+    }
+  }
+
+  .hm-occ-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+    color: $ink-dim;
+    font-size: 0.86rem;
+
+    b {
+      color: $ink;
+      font-weight: 500;
+    }
+  }
+
+  .hm-bar {
+    height: 5px;
+    border-radius: 3px;
+    background: rgba(200, 162, 77, 0.14);
+    overflow: hidden;
+
+    span {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+      background: $gold;
+      transition: width 0.4s ease;
+
+      &.full {
+        background: $danger;
+      }
+    }
+  }
+
+  /* ---------- Liste mici (de confirmat, contact) ---------- */
+
+  .hm-mini {
+    display: flex;
+    flex-direction: column;
+
+    li + li {
+      border-top: 1px solid $hairline-soft;
+    }
+
+    button {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 12px 0;
+      background: none;
+      border: none;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+
+      &:hover .hm-mini-name {
+        color: $gold-bright;
+      }
+    }
+  }
+
+  .hm-mini-when {
+    min-width: 74px;
+    color: $gold;
+    font-size: 0.82rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hm-mini-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .hm-mini-ago {
+    color: $ink-faint;
+    font-size: 0.74rem;
+  }
+
+  .hm-mini-name {
+    overflow: hidden;
+    font-size: 0.9rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+  }
+
+  .hm-contacts {
+    display: flex;
+    flex-direction: column;
+
+    li {
+      padding: 14px 0;
+
+      &:first-child {
+        padding-top: 0;
+      }
+
+      & + li {
+        border-top: 1px solid $hairline-soft;
+      }
+    }
+
+    p {
+      margin-top: 6px;
+      color: $ink-dim;
+      font-size: 0.84rem;
+      line-height: 1.55;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  }
+
+  .hm-contact-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .hm-mini-name {
+      flex: 0 1 auto;
+    }
+  }
+
+  .hm-contact-date {
+    margin-left: auto;
+    color: $ink-faint;
+    font-size: 0.74rem;
+    white-space: nowrap;
+  }
+
+  /* ---------- Focus vizibil ---------- */
+
+  .hm-icon-btn:focus-visible,
+  .hm-text-btn:focus-visible,
+  .hm-date-input:focus-visible,
+  .hm-weekday:focus-visible,
+  .hm-mini button:focus-visible,
+  .hm-call:focus-visible {
+    outline: 2px solid $gold-bright;
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 900px) {
+  .home-page {
+    .hm-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .home-page {
+    padding: 88px 14px 90px;
+
+    .hm-day-top {
+      padding: 24px 20px 22px;
+    }
+
+    .hm-stat {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      padding: 16px 20px;
+    }
+
+    .hm-panel {
+      padding: 22px 18px 22px;
+    }
+
+    // Banda săptămânii devine un rând care se derulează lateral
+    .hm-week {
+      display: flex;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .hm-weekday {
+      flex: 0 0 92px;
+    }
+
+    .hm-row {
+      grid-template-columns: 52px minmax(0, 1fr);
+
+      .hm-side {
+        grid-column: 2;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+      }
+
+      &.acum {
+        margin: 0 -10px;
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ $font-ui: 'Jost', 'Helvetica Neue', sans-serif;
   color: $ink;
   background: $bg;
   font-family: $font-ui;
-  height: 100vh;
+  min-height: 100vh;  
 }
 
 .page-head {

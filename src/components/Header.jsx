@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import '../styles/Header.scss'
 
@@ -65,6 +65,10 @@ const LogoutIcon = () => (
 )
 
 const Header = ({ onLogout }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const closeMenu = () => setIsMenuOpen(false)
+
   return (
     <header className="header">
       <div className="brand">
@@ -75,7 +79,7 @@ const Header = ({ onLogout }) => {
         </span>
       </div>
 
-      <nav className="admin-nav">
+      <nav className="admin-nav desktop-nav" aria-label="Main navigation">
         {navItems.map((item) => (
           <NavLink key={item.to} to={item.to} end={item.end}>
             {item.icon}
@@ -84,10 +88,58 @@ const Header = ({ onLogout }) => {
         ))}
       </nav>
 
-      <button type="button" className="logout-btn" onClick={onLogout}>
+      <button type="button" className="logout-btn desktop-logout" onClick={onLogout}>
         <LogoutIcon />
         Deconectare
       </button>
+
+      <button
+        type="button"
+        className={`menu-toggle ${isMenuOpen ? 'open' : ''}`}
+        aria-label="Deschide navigarea"
+        aria-expanded={isMenuOpen}
+        onClick={() => setIsMenuOpen((prev) => !prev)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <div
+        className={`mobile-nav-overlay ${isMenuOpen ? 'visible' : ''}`}
+        onClick={closeMenu}
+        aria-hidden={!isMenuOpen}
+      />
+
+      <div className={`mobile-nav-panel ${isMenuOpen ? 'open' : ''}`}>
+        <div className="mobile-nav-header">
+          <span className="mini-brand">Norvex</span>
+          <button type="button" className="close-menu" onClick={closeMenu} aria-label="Închide navigarea">
+            ×
+          </button>
+        </div>
+
+        <nav className="admin-nav mobile-nav" aria-label="Mobile navigation">
+          {navItems.map((item) => (
+            <NavLink key={item.to} to={item.to} end={item.end} onClick={closeMenu}>
+              {item.icon}
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          className="logout-btn mobile-logout"
+          onClick={() => {
+            closeMenu()
+            onLogout()
+          }}
+        >
+          <LogoutIcon />
+          Deconectare
+        </button>
+      </div>
     </header>
   )
 }

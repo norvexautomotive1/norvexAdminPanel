@@ -2,12 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabaseClient'
 import '../styles/Reservations.scss'
 
-const STATUS_LABELS = {
-  in_asteptare: 'În așteptare',
-  confirmat: 'Confirmat',
-  anulat: 'Anulat',
-}
-
 const TIPURI_CAROSERIE = ['Citadină', 'Sedan', 'Break']
 const EDITABLE_FIELDS = [
   'nume',
@@ -18,7 +12,6 @@ const EDITABLE_FIELDS = [
   'numar_masina',
   'categorie_serviciu',
   'pachet_selectat',
-  'status',
 ]
 
 const EditIcon = () => (
@@ -36,6 +29,21 @@ const formatDate = (isoString) => {
     year: 'numeric',
   })
 }
+
+// data_programare vine ca 'YYYY-MM-DD'. O parsăm manual în ora locală:
+// new Date('2026-09-23') ar fi interpretat ca UTC și poate arăta altă zi.
+const formatDataProgramare = (iso) => {
+  if (!iso) return '—'
+  const [y, m, d] = iso.split('-').map(Number)
+  return new Date(y, m - 1, d).toLocaleDateString('ro-RO', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+  })
+}
+
+const formatOraProgramare = (time) => (time ? time.slice(0, 5) : '')
 
 const Reservations = () => {
   const [reservations, setReservations] = useState([])
@@ -156,8 +164,8 @@ const Reservations = () => {
                 <th>Mașină</th>
                 <th>Categorie</th>
                 <th>Pachet</th>
-                <th>Status</th>
-                <th>Data</th>
+                <th>Programare</th>
+                <th>Creată la</th>
                 <th></th>
               </tr>
             </thead>
@@ -182,9 +190,12 @@ const Reservations = () => {
                   </td>
                   <td>{row.pachet_selectat}</td>
                   <td>
-                    <span className={`badge ${row.status}`}>
-                      {STATUS_LABELS[row.status] || row.status}
-                    </span>
+                    <div className="programare-cell">
+                      <span>{formatDataProgramare(row.data_programare)}</span>{' '}
+                      {row.ora_programare && (
+                        <span className="ora-pill">{formatOraProgramare(row.ora_programare)}</span>
+                      )}
+                    </div>
                   </td>
                   <td className="meta">{formatDate(row.created_at)}</td>
                   <td>
@@ -302,19 +313,6 @@ const Reservations = () => {
                 value={editForm.pachet_selectat ?? ''}
                 onChange={handleEditChange}
               />
-            </div>
-
-            <div className="field">
-              <label>Status</label>
-              <select
-                name="status"
-                value={editForm.status ?? 'in_asteptare'}
-                onChange={handleEditChange}
-              >
-                <option value="in_asteptare">În așteptare</option>
-                <option value="confirmat">Confirmat</option>
-                <option value="anulat">Anulat</option>
-              </select>
             </div>
 
             {saveError && <div className="state-message error inline">{saveError}</div>}
