@@ -21,6 +21,14 @@ const EditIcon = () => (
   </svg>
 )
 
+const DeleteIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
+    <path d="M4 7h16" />
+    <path d="M9 7V4h6v3M7 7l1 13h8l1-13" />
+    <path d="M10 11v5M14 11v5" />
+  </svg>
+)
+
 const formatDate = (isoString) => {
   if (!isoString) return '—'
   return new Date(isoString).toLocaleDateString('ro-RO', {
@@ -50,10 +58,12 @@ const Reservations = () => {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const [editingId, setEditingId] = useState(null)
   const [editForm, setEditForm] = useState(null)
   const [saving, setSaving] = useState(false)
   const [saveError, setSaveError] = useState('')
+  const [deletingReservation, setDeletingReservation] = useState(null)
+  const [deleting, setDeleting] = useState(false)
+  const [deleteError, setDeleteError] = useState('')
 
   const fetchReservations = async () => {
     setLoading(true)
@@ -79,14 +89,53 @@ const Reservations = () => {
   }, [])
 
   const openEdit = (row) => {
-    setEditingId(row.id)
     setEditForm({ ...row })
     setSaveError('')
   }
 
   const closeEdit = () => {
-    setEditingId(null)
     setEditForm(null)
+  }
+
+  const openDelete = (row) => {
+    setDeletingReservation(row)
+    setDeleteError('')
+  }
+
+  const closeDelete = () => {
+    if (deleting) return
+    setDeletingReservation(null)
+    setDeleteError('')
+  }
+
+  const handleDelete = async () => {
+    if (!deletingReservation?.id) return
+
+    setDeleting(true)
+    setDeleteError('')
+
+    const { data: deletedRows, error: deleteReservationError } = await supabase
+      .from('rezervari_norvex')
+      .delete()
+      .eq('id', deletingReservation.id)
+      .select('id')
+
+    setDeleting(false)
+
+    if (deleteReservationError) {
+      setDeleteError(deleteReservationError.message)
+      return
+    }
+
+    if (!deletedRows || deletedRows.length === 0) {
+      setDeleteError(
+        'Rezervarea nu a fost ștearsă. Verifică politica RLS pentru operația DELETE în Supabase.'
+      )
+      return
+    }
+
+    setReservations((prev) => prev.filter((row) => row.id !== deletingReservation.id))
+    setDeletingReservation(null)
   }
 
   const handleEditChange = (e) => {
@@ -140,6 +189,7 @@ const Reservations = () => {
           <h1>Rezervări</h1>
         </div>
         <div className="count-pill">
+          <span className="count-dot" />
           <b>{reservations.length}</b> rezervări totale
         </div>
       </div>
@@ -166,7 +216,7 @@ const Reservations = () => {
                 <th>Pachet</th>
                 <th>Programare</th>
                 <th>Creată la</th>
-                <th></th>
+                <th className="actions-heading">Acțiuni</th>
               </tr>
             </thead>
             <tbody>
@@ -199,14 +249,26 @@ const Reservations = () => {
                   </td>
                   <td className="meta">{formatDate(row.created_at)}</td>
                   <td>
-                    <button
-                      type="button"
-                      className="edit-btn"
-                      onClick={() => openEdit(row)}
-                      aria-label="Editează rezervarea"
-                    >
-                      <EditIcon />
-                    </button>
+                    <div className="row-actions">
+                      <button
+                        type="button"
+                        className="edit-btn"
+                        onClick={() => openEdit(row)}
+                        aria-label="Editează rezervarea"
+                        title="Editează rezervarea"
+                      >
+                        <EditIcon />
+                      </button>
+                      <button
+                        type="button"
+                        className="delete-btn"
+                        onClick={() => openDelete(row)}
+                        aria-label="Șterge rezervarea"
+                        title="Șterge rezervarea"
+                      >
+                        <DeleteIcon />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -328,6 +390,44 @@ const Reservations = () => {
                 disabled={saving}
               >
                 {saving ? 'Se salvează...' : 'Salvează modificările'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {deletingReservation && (
+        <div className="modal-backdrop delete-backdrop" onClick={closeDelete}>
+          <div
+            className="confirm-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="delete-title"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="confirm-icon">
+              <DeleteIcon />
+            </div>
+            <div className="confirm-copy">
+              <div className="eyebrow">Acțiune ireversibilă</div>
+              <h2 id="delete-title">Ștergi rezervarea?</h2>
+              <p>
+                Rezervarea lui{' '}
+                <strong>
+                  {deletingReservation.nume} {deletingReservation.prenume}
+                </strong>{' '}
+                va fi eliminată definitiv.
+              </p>
+            </div>
+
+            {deleteError && <div className="state-message error inline">{deleteError}</div>}
+
+            <div className="modal-actions">
+              <button type="button" className="btn-cancel" onClick={closeDelete} disabled={deleting}>
+                Păstrează rezervarea
+              </button>
+              <button type="button" className="btn-delete" onClick={handleDelete} disabled={deleting}>
+                {deleting ? 'Se șterge...' : 'Da, șterge'}
               </button>
             </div>
           </div>

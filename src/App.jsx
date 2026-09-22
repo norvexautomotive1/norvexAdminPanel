@@ -7,6 +7,7 @@ import Contact from './pages/Contact'
 import Rezervations from './pages/Reservations'
 import ServicesEdits from './pages/ServicesEdits'
 import WebsiteRenovations from './pages/WebsiteRenovations'
+import PasswordChange from './pages/PasswordChange'
 import { supabase } from './lib/supabaseClient'
 
 const ProtectedLayout = ({ children, onLogout }) => (
@@ -102,6 +103,7 @@ const App = () => {
       <Route path="/reservations" element={<ProtectedRoute onLogout={handleLogout}><Rezervations /></ProtectedRoute>} />
       <Route path="/services-edits" element={<ProtectedRoute onLogout={handleLogout}><ServicesEdits /></ProtectedRoute>} />
       <Route path="/website-renovations" element={<ProtectedRoute onLogout={handleLogout}><WebsiteRenovations /></ProtectedRoute>} />
+      <Route path="/password-change" element={<ProtectedRoute onLogout={handleLogout}><PasswordChange /></ProtectedRoute>} />
 
       <Route path="*" element={<Navigate to={session ? '/home' : '/login'} replace />} />
     </Routes>

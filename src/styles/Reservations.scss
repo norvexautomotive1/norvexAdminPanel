@@ -10,11 +10,13 @@ $font-display: 'Cormorant Garamond', Georgia, serif;
 $font-ui: 'Jost', 'Helvetica Neue', sans-serif;
 
 .reservations-page {
-  padding: 48px 36px;
+  width: 100%;
+  min-height: calc(100vh - 77px);
+  padding: clamp(32px, 5vw, 72px) clamp(20px, 4vw, 64px) 80px;
   color: $ink;
   background: $bg;
   font-family: $font-ui;
-  min-height: 100vh;  
+  overflow-x: hidden;
 }
 
 .page-head {
@@ -23,7 +25,13 @@ $font-ui: 'Jost', 'Helvetica Neue', sans-serif;
   align-items: flex-end;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 32px;
+  margin: 0 auto 28px;
+  width: 100%;
+
+  h1 {
+    font-size: clamp(2.1rem, 4vw, 3.2rem);
+    letter-spacing: -0.02em;
+  }
 }
 
 .eyebrow {
@@ -33,21 +41,25 @@ $font-ui: 'Jost', 'Helvetica Neue', sans-serif;
   color: $gold;
   font-size: 0.68rem;
   letter-spacing: 0.3em;
-  margin-bottom: 10px;
-}
+  margin-bottom: 12px;
 
-h1 {
-  font-family: $font-display;
-  font-weight: 600;
-  font-size: 2rem;
-  margin: 0;
+  &::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: $gold;
+  }
 }
 
 .count-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
   color: $ink-dim;
   font-size: 0.8rem;
   border: 1px solid $hairline;
-  padding: 8px 16px;
+  background: rgba(200, 162, 77, 0.035);
+  padding: 10px 16px;
   border-radius: 999px;
 
   b {
@@ -55,13 +67,23 @@ h1 {
   }
 }
 
+.count-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #7fbf8f;
+  box-shadow: 0 0 0 4px rgba(127, 191, 143, 0.1);
+}
+
 // Table
 
 .table-card {
+  width: 100%;
   background: $panel;
   border: 1px solid $hairline;
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.16);
 
   @media (max-width: 900px) {
     overflow-x: auto;
@@ -71,15 +93,16 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto;
 
   @media (max-width: 900px) {
-    min-width: 950px;
+    min-width: 1040px;
   }
 }
 
 thead th {
   text-align: left;
-  padding: 16px 20px;
+  padding: 15px 22px;
   font-size: 0.66rem;
   letter-spacing: 0.12em;
   color: $gold;
@@ -89,7 +112,7 @@ thead th {
 }
 
 tbody td {
-  padding: 16px 20px;
+  padding: 19px 22px;
   font-size: 0.85rem;
   color: $ink;
   border-bottom: 1px solid rgba(200, 162, 77, 0.1);
@@ -101,7 +124,11 @@ tbody tr:last-child td {
 }
 
 tbody tr:hover {
-  background: rgba(200, 162, 77, 0.04);
+  background: linear-gradient(90deg, rgba(200, 162, 77, 0.07), rgba(200, 162, 77, 0.015));
+}
+
+.actions-heading {
+  text-align: right;
 }
 
 .client-cell .name {
@@ -116,8 +143,15 @@ tbody tr:hover {
 }
 
 .category-tag {
-  font-size: 0.76rem;
-  color: $ink-dim;
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 4px 10px;
+  border: 1px solid $hairline;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  color: $gold-bright;
+  background: rgba(200, 162, 77, 0.05);
 }
 
 .state-message {
@@ -175,7 +209,14 @@ tbody tr:hover {
 
 // Edit button
 
-.edit-btn {
+.row-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.edit-btn,
+.delete-btn {
   width: 32px;
   height: 32px;
   border: 1px solid $hairline;
@@ -196,6 +237,23 @@ tbody tr:hover {
     border-color: $gold-bright;
     color: $gold-bright;
   }
+}
+
+.delete-btn {
+  color: rgba(224, 122, 95, 0.78);
+  border-color: rgba(224, 122, 95, 0.25);
+
+  &:hover {
+    border-color: #e07a5f;
+    color: #e07a5f;
+    background: rgba(224, 122, 95, 0.08);
+  }
+}
+
+.edit-btn svg,
+.delete-btn svg {
+  width: 14px;
+  height: 14px;
 }
 
 // Modal
@@ -220,6 +278,70 @@ tbody tr:hover {
   border: 1px solid $hairline;
   border-radius: 4px;
   padding: 32px 30px;
+}
+
+.delete-backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.confirm-card {
+  width: 100%;
+  max-width: 470px;
+  background: linear-gradient(165deg, #17130c 0%, $bg 100%);
+  border: 1px solid rgba(224, 122, 95, 0.34);
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+
+  .eyebrow {
+    color: #e07a5f;
+    margin-bottom: 8px;
+
+    &::before {
+      background: #e07a5f;
+    }
+  }
+
+  h2 {
+    font-family: $font-display;
+    font-size: 1.65rem;
+    font-weight: 600;
+    color: $ink;
+    margin: 0 0 10px;
+  }
+
+  p {
+    color: $ink-dim;
+    font-size: 0.86rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  strong {
+    color: $ink;
+    font-weight: 500;
+  }
+
+  .modal-actions {
+    margin-top: 28px;
+  }
+}
+
+.confirm-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 22px;
+  color: #e07a5f;
+  border: 1px solid rgba(224, 122, 95, 0.4);
+  border-radius: 50%;
+  background: rgba(224, 122, 95, 0.08);
+
+  svg {
+    width: 19px;
+    height: 19px;
+  }
 }
 
 .modal-head {
@@ -330,8 +452,67 @@ tbody tr:hover {
   cursor: pointer;
   border-radius: 3px;
 
-  &:hover {
+  &:hover:not(:disabled) {
     border-color: $gold;
     color: $gold-bright;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-delete {
+  flex: 1;
+  background: #c76850;
+  color: #180b07;
+  border: none;
+  padding: 13px;
+  font-family: $font-ui;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 3px;
+
+  &:hover:not(:disabled) {
+    background: #e07a5f;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@media (max-width: 620px) {
+  .reservations-page {
+    padding: 30px 14px 48px;
+  }
+
+  .page-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .count-pill {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  .modal-card,
+  .confirm-card {
+    padding: 24px 20px;
+  }
+
+  .field-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .confirm-card .modal-actions {
+    flex-direction: column-reverse;
   }
 }
