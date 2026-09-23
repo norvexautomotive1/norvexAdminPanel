@@ -134,7 +134,14 @@ const Contact = () => {
       return
     }
 
-    const updatedContact = { ...selectedContact, ...data?.[0] }
+    if (!data || data.length === 0) {
+      setStatusError(
+        'Statusul nu a fost actualizat. Verifică politica RLS UPDATE pentru tabela contacturi_norvex.'
+      )
+      return
+    }
+
+    const updatedContact = { ...selectedContact, ...data[0] }
     setContacts((currentContacts) =>
       currentContacts.map((contact) => (contact.id === updatedContact.id ? { ...contact, ...updatedContact } : contact)),
     )
