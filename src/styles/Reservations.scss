@@ -75,6 +75,27 @@ $font-ui: 'Jost', 'Helvetica Neue', sans-serif;
   box-shadow: 0 0 0 4px rgba(127, 191, 143, 0.1);
 }
 
+.refresh-reservations {
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 10px 15px;
+  color: $gold-bright;
+  background: transparent;
+  font: 0.74rem $font-ui;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $gold-bright;
+    background: rgba(200, 162, 77, 0.06);
+  }
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.55;
+  }
+}
+
 // Table
 
 .table-card {
@@ -500,6 +521,10 @@ tbody tr:hover {
   .count-pill {
     align-self: stretch;
     justify-content: center;
+  }
+
+  .refresh-reservations {
+    width: 100%;
   }
 
   .modal-card,

@@ -1,10 +1,474 @@
 $bg: #0a0906;
 $panel: #0d0c08;
+$surface: #131109;
 $ink: #f2ede3;
 $ink-dim: rgba(242, 237, 227, 0.62);
 $gold: #c8a24d;
 $gold-bright: #e2bf6f;
 $hairline: rgba(200, 162, 77, 0.22);
-
+$danger: #e07a5f;
+$success: #7fbf8f;
 $font-display: 'Cormorant Garamond', Georgia, serif;
-$font-ui: 'Jost', 'Helvetica Neue', sans-serif; 
+$font-ui: 'Jost', 'Helvetica Neue', sans-serif;
+
+.hours-page {
+  min-height: calc(100vh - 77px);
+  padding: clamp(32px, 5vw, 72px) clamp(20px, 4vw, 64px) 80px;
+  color: $ink;
+  background: $bg;
+  font-family: $font-ui;
+}
+
+.hours-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 30px;
+
+  h1 {
+    margin: 0;
+    font-family: $font-display;
+    font-size: clamp(2.2rem, 4vw, 3.3rem);
+    font-weight: 600;
+  }
+
+  p {
+    margin: 8px 0 0;
+    color: $ink-dim;
+    font-size: 0.86rem;
+  }
+}
+
+.hours-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: $gold;
+  font-size: 0.68rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+
+  &::before {
+    width: 24px;
+    height: 1px;
+    background: $gold;
+    content: '';
+  }
+}
+
+.hours-summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid $hairline;
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: $ink-dim;
+  font-size: 0.8rem;
+
+  strong {
+    color: $gold-bright;
+  }
+}
+
+.summary-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: $success;
+  box-shadow: 0 0 0 4px rgba(127, 191, 143, 0.1);
+}
+
+.hours-card {
+  overflow: hidden;
+  border: 1px solid $hairline;
+  border-radius: 8px;
+  background: $panel;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.16);
+}
+
+.booking-rules-card {
+  margin-top: 22px;
+}
+
+.hours-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 25px 26px;
+  border-bottom: 1px solid rgba(200, 162, 77, 0.13);
+
+  h2 {
+    margin: 0;
+    font-family: $font-display;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 5px 0 0;
+    color: $ink-dim;
+    font-size: 0.76rem;
+  }
+}
+
+.refresh-hours {
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 10px 14px;
+  color: $gold-bright;
+  background: transparent;
+  font: 0.74rem $font-ui;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    border-color: $gold-bright;
+    background: rgba(200, 162, 77, 0.06);
+  }
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.55;
+  }
+}
+
+.hours-table-wrap {
+  overflow-x: auto;
+}
+
+.hours-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+
+  th {
+    padding: 15px 22px;
+    border-bottom: 1px solid $hairline;
+    color: $gold;
+    font-size: 0.64rem;
+    letter-spacing: 0.13em;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 17px 22px;
+    border-bottom: 1px solid rgba(200, 162, 77, 0.1);
+    color: $ink;
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  tr:last-child td {
+    border-bottom: 0;
+  }
+
+  tbody tr {
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: rgba(200, 162, 77, 0.045);
+    }
+
+    &.is-closed {
+      td {
+        color: rgba(242, 237, 227, 0.42);
+      }
+    }
+  }
+}
+
+.day-name {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  strong {
+    font-weight: 500;
+  }
+}
+
+.day-short {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  place-items: center;
+  border: 1px solid $hairline;
+  border-radius: 50%;
+  color: $gold-bright;
+  background: rgba(200, 162, 77, 0.06);
+  font-size: 0.68rem;
+}
+
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  span {
+    position: relative;
+    width: 35px;
+    height: 20px;
+    border: 1px solid rgba(242, 237, 227, 0.22);
+    border-radius: 999px;
+    background: rgba(242, 237, 227, 0.1);
+    transition: background 0.2s ease, border-color 0.2s ease;
+
+    &::after {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: $ink-dim;
+      content: '';
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+  }
+
+  input:checked + span {
+    border-color: $gold;
+    background: rgba(200, 162, 77, 0.25);
+
+    &::after {
+      background: $gold-bright;
+      transform: translateX(15px);
+    }
+  }
+
+  em {
+    color: $ink-dim;
+    font-size: 0.74rem;
+    font-style: normal;
+  }
+}
+
+.time-input {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid $hairline;
+  border-radius: 4px;
+  padding: 7px 9px;
+  background: $surface;
+
+  svg {
+    width: 14px;
+    height: 14px;
+    color: $gold;
+  }
+
+  input {
+    width: 88px;
+    border: 0;
+    outline: 0;
+    color: $ink;
+    background: transparent;
+    font: 0.8rem $font-ui;
+
+    &:disabled {
+      color: rgba(242, 237, 227, 0.3);
+      cursor: not-allowed;
+    }
+  }
+
+  &:has(input:disabled) {
+    opacity: 0.5;
+  }
+}
+
+.schedule-pill {
+  display: inline-flex;
+  border: 1px solid rgba(127, 191, 143, 0.35);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: $success;
+  background: rgba(127, 191, 143, 0.07);
+  font-size: 0.7rem;
+
+  &.closed {
+    border-color: rgba(242, 237, 227, 0.16);
+    color: $ink-dim;
+    background: rgba(242, 237, 227, 0.04);
+  }
+
+  .booking-table {
+    min-width: 900px;
+
+    td strong {
+      color: $ink;
+      font-weight: 500;
+    }
+  }
+
+  .number-input,
+  .unit-input {
+    border: 1px solid $hairline;
+    border-radius: 4px;
+    background: $surface;
+  }
+
+  .number-input {
+    width: 82px;
+    padding: 9px 10px;
+    color: $ink;
+    font: 0.8rem $font-ui;
+    outline: none;
+
+    &:focus {
+      border-color: $gold;
+    }
+  }
+
+  .unit-input {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0 9px;
+
+    input {
+      width: 66px;
+      border: 0;
+      outline: none;
+      padding: 9px 0;
+      color: $ink;
+      background: transparent;
+      font: 0.8rem $font-ui;
+    }
+
+    span {
+      color: $ink-dim;
+      font-size: 0.7rem;
+    }
+
+    &:focus-within {
+      border-color: $gold;
+    }
+  }
+}
+
+.hours-state {
+  padding: 70px 24px;
+  color: $ink-dim;
+  text-align: center;
+  font-size: 0.86rem;
+
+  &.is-error {
+    color: $danger;
+  }
+}
+
+.hours-feedback {
+  margin: 18px 26px 0;
+  border-radius: 4px;
+  padding: 11px 13px;
+  font-size: 0.78rem;
+
+  &.is-error {
+    border: 1px solid rgba(224, 122, 95, 0.35);
+    color: $danger;
+    background: rgba(224, 122, 95, 0.07);
+  }
+
+  &.is-success {
+    border: 1px solid rgba(127, 191, 143, 0.3);
+    color: $success;
+    background: rgba(127, 191, 143, 0.07);
+  }
+}
+
+.hours-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 24px;
+  padding: 20px 26px;
+  border-top: 1px solid rgba(200, 162, 77, 0.13);
+
+  span {
+    color: $ink-dim;
+    font-size: 0.75rem;
+  }
+}
+
+.save-hours {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 4px;
+  padding: 12px 17px;
+  color: $bg;
+  background: $gold;
+  font: 600 0.74rem $font-ui;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+
+  svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  &:hover:not(:disabled) {
+    background: $gold-bright;
+  }
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 700px) {
+  .hours-page {
+    padding: 30px 14px 48px;
+  }
+
+  .hours-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .hours-summary {
+    align-self: stretch;
+    justify-content: center;
+  }
+
+  .hours-card-head {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .refresh-hours {
+    width: 100%;
+  }
+
+  .hours-actions {
+    align-items: stretch;
+    flex-direction: column;
+    padding: 18px 20px;
+  }
+
+  .hours-actions span {
+    line-height: 1.5;
+  }
+
+  .save-hours {
+    width: 100%;
+  }
+}

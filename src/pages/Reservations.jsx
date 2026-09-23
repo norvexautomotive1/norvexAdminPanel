@@ -13,6 +13,20 @@ const EDITABLE_FIELDS = [
   'categorie_serviciu',
   'pachet_selectat',
 ]
+const RESERVATION_COLUMNS = [
+  'id',
+  'created_at',
+  'nume',
+  'prenume',
+  'telefon',
+  'email',
+  'tip_masina',
+  'numar_masina',
+  'categorie_serviciu',
+  'pachet_selectat',
+  'data_programare',
+  'ora_programare',
+].join(', ')
 
 const EditIcon = () => (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
@@ -65,13 +79,15 @@ const Reservations = () => {
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState('')
 
-  const fetchReservations = async () => {
-    setLoading(true)
+  const fetchReservations = async ({ showLoading = true } = {}) => {
+    if (showLoading) setLoading(true)
     setError('')
 
     const { data, error: fetchError } = await supabase
       .from('rezervari_norvex')
-      .select('*')
+      .select(RESERVATION_COLUMNS)
+      .order('data_programare', { ascending: true, nullsFirst: false })
+      .order('ora_programare', { ascending: true, nullsFirst: false })
       .order('created_at', { ascending: false })
 
     if (fetchError) {
@@ -80,7 +96,7 @@ const Reservations = () => {
       return
     }
 
-    setReservations(data)
+    setReservations(data || [])
     setLoading(false)
   }
 
@@ -177,7 +193,7 @@ const Reservations = () => {
       )
     }
 
-    await fetchReservations()
+    await fetchReservations({ showLoading: false })
     closeEdit()
   }
 
@@ -192,6 +208,14 @@ const Reservations = () => {
           <span className="count-dot" />
           <b>{reservations.length}</b> rezervări totale
         </div>
+        <button
+          type="button"
+          className="refresh-reservations"
+          onClick={() => fetchReservations()}
+          disabled={loading}
+        >
+          Reîmprospătează
+        </button>
       </div>
 
       <div className="table-card">
